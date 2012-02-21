@@ -49,6 +49,8 @@ void Hacks::Init ()
 	const byte NoPopups[] = {0x90, 0xE9};
 	Write(WoWBase + CGGameUI__ShowBlockedActionFeedback + 0x10, NoPopups, 2);
 
+	Write<byte>(WoWBase + CGCamera__UpdateMotion_ulong_ + 0x238, static_cast<byte>(0xF0));
+
 	const byte NOPs[] = {0x90, 0x90, 0x90, 0x90, 0x90};
 	Write(WoWBase + Script_UnitLevel + 0xD3, NOPs, 2);
 
