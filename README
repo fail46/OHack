@@ -1,0 +1,5 @@
+OHack - An open source hack for World of Warcraft
+
+To use it, build it, and use FailInjector (in another repo on my github) to inject the DLL into WoW.
+
+The Fail.* files are part of a small lib I wrote for use in another project. I don't care if anyone else uses them, but they might have bugs; I haven't tested them a lot.
