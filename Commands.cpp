@@ -111,6 +111,7 @@ bool HandleCommand ()
 		}
 		else if(std::string(Command).find(".morph") != std::string::npos)
 		{
+			const char* Previous = UI::MorphBox->GetText();
 			char* ModelID = new char[6];
 			ZeroMemory(ModelID, 6);
 			memcpy(ModelID, &Command[7], 5);
@@ -123,9 +124,11 @@ bool HandleCommand ()
 
 			delete[] ModelID;
 			Hacks::Morph();
+			UI::MorphBox->SetText(Previous);
 		}
 		else if(std::string(Command).find(".scale") != std::string::npos)
 		{
+			const char* Previous = UI::ScaleBox->GetText();
 			char* Scale = new char[6];
 			ZeroMemory(Scale, 6);
 			memcpy(Scale, &Command[7], 5);
@@ -138,9 +141,11 @@ bool HandleCommand ()
 
 			delete[] Scale;
 			Hacks::Morph();
+			UI::ScaleBox->SetText(Previous);
 		}
 		else if(std::string(Command).find(".loadmap") != std::string::npos)
 		{
+			const char* Previous = UI::MapBox->GetText();
 			char* Map = new char[6];
 			ZeroMemory(Map, 6);
 			memcpy(Map, &Command[9], 5);
@@ -153,6 +158,7 @@ bool HandleCommand ()
 
 			delete[] Map;
 			Hacks::LoadMap();
+			UI::MapBox->SetText(Previous);
 		}
 		else if(Command[0] != '.')
 		{
