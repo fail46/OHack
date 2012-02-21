@@ -45,6 +45,10 @@ void Hacks::Init ()
 	Write(WoWBase + CGGameUI__CanPerformAction + 0x20, LuaUnlock, 2);
 	Write<byte>(WoWBase + Script_GuildInvite + 0xA2, static_cast<byte>(0xEB));
 
+	// To stop those damn pop-ups
+	const byte NoPopups[] = {0x90, 0xE9};
+	Write(WoWBase + CGGameUI__ShowBlockedActionFeedback + 0x10, NoPopups, 2);
+
 	const byte NOPs[] = {0x90, 0x90, 0x90, 0x90, 0x90};
 	Write(WoWBase + Script_UnitLevel + 0xD3, NOPs, 2);
 
