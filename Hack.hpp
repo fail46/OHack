@@ -1,5 +1,7 @@
 #pragma once
 
+#define ThisVersion 1
+
 #include <Windows.h>
 #include <UrlMon.h>
 
