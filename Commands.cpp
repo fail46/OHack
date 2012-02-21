@@ -118,7 +118,7 @@ bool HandleCommand ()
 			UI::MorphBox->SetText(ModelID);
 		
 			char* String = new char[100];
-			sprintf(String, "Player morphed to display ID: %s", ModelID);
+			sprintf(String, "%s morphed to display ID: %s", Hacks::Target == 0 ? "Player" : "Target", ModelID);
 			AddChat(String);
 			delete[] String;
 
@@ -135,7 +135,7 @@ bool HandleCommand ()
 			UI::ScaleBox->SetText(Scale);
 
 			char* String = new char[100];
-			sprintf(String, "Player scale set to: %s", Scale);
+			sprintf(String, "%s scale set to: %s", Hacks::Target == 0 ? "Player" : "Target", Scale);
 			AddChat(String);
 			delete[] String;
 
