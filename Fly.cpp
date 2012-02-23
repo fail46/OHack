@@ -24,6 +24,10 @@ void Hacks::SetFly (bool State)
 	if(GetMoveStatusReal == nullptr)
 	{
 		GetMoveStatusReal = reinterpret_cast<void (__thiscall*)(unsigned int, int, int, int)>(DetourFunction(reinterpret_cast<byte*>(WoWBase + CMovement_C__GetMoveStatus), reinterpret_cast<byte*>(GetMoveStatusHook)));
+		if(GetMoveStatusReal == nullptr)
+		{
+			throw exception("Unable to hook CMovement_C::GetMoveStatus for fly hack.");
+		}
 	}
 
 	if(**reinterpret_cast<byte**>(WoWBase + CGGameUI__EnterWorld + 0xB) != 1 || Player == 0)
