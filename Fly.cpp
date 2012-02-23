@@ -50,7 +50,6 @@ void Hacks::SetFly (bool State)
 		const byte NoJump[] = {0x90, 0x90, 0x83, 0xC4, 0x4};
 		Write(WoWBase + Script_JumpOrAscendStart + 0x15D, NoJump, 5);
 
-		*reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(Hacks::Player + CMovement) + 0x38) |= MovementFlags::Flying;
 		Fly = true;
 
 		UI::FlyHack->SetChecked(GetFly());
