@@ -13,10 +13,11 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F64543B7-A7A0-431A-816D-9F524ED95D55}</ProjectGuid>
     <RootNamespace>WoWHack</RootNamespace>
+    <ProjectName>OHack</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -78,7 +79,7 @@
     <ClInclude Include="Fail.UI.Controls.Text.hpp" />
     <ClInclude Include="Fail.UI.hpp" />
     <ClInclude Include="Fail.UI.View.hpp" />
-    <ClInclude Include="Hack.hpp" />
+    <ClInclude Include="OHack.hpp" />
     <ClInclude Include="Offsets.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -92,10 +93,13 @@
     <ClCompile Include="Fail.Object.cpp" />
     <ClCompile Include="Fail.UI.cpp" />
     <ClCompile Include="Morph.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="NoCollision.cpp" />
     <ClCompile Include="NoWater.cpp" />
+    <ClCompile Include="Tracking.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="WaterWalk.cpp" />
+    <ClCompile Include="WoW.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
