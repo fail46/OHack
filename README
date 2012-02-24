@@ -3,3 +3,5 @@ OHack - An open source hack for World of Warcraft
 You need Detours 1.5 to build it, and it probably won't build with anything other than Visual Studio.
 
 You can reuse any of my code in this hack, as long as you don't sell it.
+
+Make sure that you build it as a DLL.
