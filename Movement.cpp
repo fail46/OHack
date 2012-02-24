@@ -6,6 +6,10 @@ void __fastcall Hacks::GetMoveStatusHook (unsigned int This, unsigned int, int a
 	if(Fly == true)
 	{
 		*reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(WoW::GetPlayer() + CMovement) + 0x38) &= ~MovementFlags::Flying;
+		if(*reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(WoW::GetPlayer() + CMovement) + 0x38) & MovementFlags::Flying)
+		{
+			Hacks::SetFly(false);
+		}
 	}
 
 	GetMoveStatusReal(This, a1, a2, a3);
