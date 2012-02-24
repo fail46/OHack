@@ -1,4 +1,4 @@
-#include "Hack.hpp"
+#include "OHack.hpp"
 
 handle Misc::KillSwitchThread;
 bool HasChecked = false;
@@ -39,8 +39,9 @@ void Misc::CheckKillswitch ()
 			throw exception("Unable to check killswitch: Failed to open file.");
 		}
 
-		std::string* Contents = new std::string;
-		std::getline(*KillSwitch, *Contents);
+		std::string* Contents = new std::string[2];
+		std::getline(*KillSwitch, Contents[0]);
+		std::getline(*KillSwitch, Contents[1]);
 		KillSwitch->close();
 		delete KillSwitch;
 		DeleteFile(Path);
@@ -48,8 +49,24 @@ void Misc::CheckKillswitch ()
 
 		if(Contents->find("Enabled") == Contents->npos)
 		{
-			Notification(UI::MainWindow->GetHandle(), Contents->c_str(), "Message");
+			if(HasChecked == false)
+			{
+				Notification(UI::MainWindow->GetHandle(), Contents->c_str(), "Message");
+			}
+
 			exit(0);
+		}
+
+		static unsigned int Version = ThisVersion;
+		unsigned int NewVersion = atoi(Contents[1].c_str());
+		if(NewVersion > Version)
+		{ 
+			if(Question(UI::MainWindow->GetHandle(), "A new version of OHack is available. Open the download page?" , "New Version") == true)
+			{
+				ShellExecute(nullptr, "open", "http://dl.dropbox.com/u/15777331/OHack/Redirect.html", nullptr, nullptr, 0);
+			}
+
+			Version = NewVersion;
 		}
 
 		delete Contents;

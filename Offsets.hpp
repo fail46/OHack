@@ -32,12 +32,22 @@
 #define CGUnit_C__UpdateSwimmingStatus 0x1D9DF0
 #define CMovement_C__Halt 0x172090
 #define Script_GuildInvite 0x4D2D10
+#define CGGameUI__ShowBlockedActionFeedback 0x4C9980
+#define CGCamera__UpdateMotion_ulong_ 0x03DBC0
+#define FrameScript_ExecuteBuffer 0x43B0A0
+#define CGUnit_C__CanCurrentFormMount 0x1BB310
+#define UseItem 0x1A8FE0
+#define CGUnit_C__UnitReaction 0x1BEA50
+#define TrackingEnumCallback 0x5D1E90
+#define CGPlayer_C__CanTrackUnit 0x161CD0
+#define CGPlayer_C__CanTrackObject 0x161D60
 
 #define Descriptors 0xC
 #define DisplayID 0xF4
 #define OriginalDisplayID 0xF8
 #define ObjectScale 0x18
 #define CMovement 0x100
+#define Type 0x14
 
 #define TimestampOffset 0x128
 
@@ -49,4 +59,18 @@ enum MovementFlags
 	Swimming = 0x100000,
 	Flying = 0x1000000,
 	Mounted = 0x10000000,
+};
+
+enum ObjectTypes
+{
+	Object = 0,
+	Item = 1,
+	Container = 2,
+	Unit = 3,
+	Player = 4,
+	GameObject = 5,
+	DynamicObject = 6,
+	Corpse = 7,
+	AiGroup = 8,
+	AreaTrigger = 9,
 };

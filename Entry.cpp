@@ -1,4 +1,4 @@
-#include "Hack.hpp"
+#include "OHack.hpp"
 
 unsigned int WoWBase = 0;
 

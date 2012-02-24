@@ -1,4 +1,4 @@
-#include "Hack.hpp"
+#include "OHack.hpp"
 
 void Hacks::SetWaterWalk (bool State)
 {

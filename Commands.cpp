@@ -1,13 +1,8 @@
-#include "Hack.hpp"
+#include "OHack.hpp"
 
 #pragma warning (disable : 4996)
 
 char* Command = nullptr;
-
-inline void AddChat (const char* Message)
-{
-	reinterpret_cast<void (__cdecl*)(const char*, unsigned int, unsigned int)>(WoWBase + ChatFrame__AddMessage)(Message, 0x25, 0);
-}
 
 bool HandleCommand ()
 {
@@ -18,12 +13,12 @@ bool HandleCommand ()
 			if(UI::NoWater->IsChecked() == false)
 			{
 				Hacks::SetNoWater(true);
-				AddChat("No Water hack enabled.");
+				WoW::AddChatMessage("No Water hack enabled.");
 			}
 			else
 			{
 				Hacks::SetNoWater(false);
-				AddChat("No Water hack disabled.");
+				WoW::AddChatMessage("No Water hack disabled.");
 			}
 		}
 		else if(strcmpi(Command, ".climb") == 0)
@@ -31,12 +26,12 @@ bool HandleCommand ()
 			if(UI::ClimbHack->IsChecked() == false)
 			{
 				Hacks::SetClimbHack(true);
-				AddChat("Climb hack enabled.");
+				WoW::AddChatMessage("Climb hack enabled.");
 			}
 			else
 			{
 				Hacks::SetClimbHack(false);
-				AddChat("Climb hack disabled.");
+				WoW::AddChatMessage("Climb hack disabled.");
 			}
 		}
 		else if(strcmpi(Command, ".hover") == 0)
@@ -46,17 +41,17 @@ bool HandleCommand ()
 				Hacks::SetHover(true);
 				if(Hacks::GetHover() == true)
 				{
-					AddChat("Hover hack enabled.");
+					WoW::AddChatMessage("Hover hack enabled.");
 				}
 				else
 				{
-					AddChat("The hover hack can't be enabled while flying or swimming.");
+					WoW::AddChatMessage("The hover hack can't be enabled while flying or swimming.");
 				}
 			}
 			else
 			{
 				Hacks::SetHover(false);
-				AddChat("Hover hack disabled.");
+				WoW::AddChatMessage("Hover hack disabled.");
 			}
 		}
 		else if(strcmpi(Command, ".fly") == 0)
@@ -66,17 +61,17 @@ bool HandleCommand ()
 				Hacks::SetFly(true);
 				if(Hacks::GetFly() == true)
 				{
-					AddChat("Fly hack enabled.");
+					WoW::AddChatMessage("Fly hack enabled.");
 				}
 				else
 				{
-					AddChat("The fly hack can't be enabled while flying, hovering, or swimming.");
+					WoW::AddChatMessage("The fly hack can't be enabled while flying, hovering, or swimming.");
 				}
 			}
 			else
 			{
 				Hacks::SetFly(false);
-				AddChat("Fly hack disabled.");
+				WoW::AddChatMessage("Fly hack disabled.");
 			}
 		}
 		else if(strcmpi(Command, ".nocollision") == 0 || strcmpi(Command, ".noclip") == 0)
@@ -84,12 +79,12 @@ bool HandleCommand ()
 			if(UI::NoCollision->IsChecked() == false)
 			{
 				Hacks::SetNoCollision(true);
-				AddChat("No Collision hack enabled.");
+				WoW::AddChatMessage("No Collision hack enabled.");
 			}
 			else
 			{
 				Hacks::SetNoCollision(false);
-				AddChat("No Collision hack disabled.");
+				WoW::AddChatMessage("No Collision hack disabled.");
 			}
 		}
 		else if(strcmpi(Command, ".waterwalk") == 0)
@@ -97,50 +92,55 @@ bool HandleCommand ()
 			if(UI::WaterWalk->IsChecked() == false)
 			{
 				Hacks::SetWaterWalk(true);
-				AddChat("Water Walk hack enabled.");
+				WoW::AddChatMessage("Water Walk hack enabled.");
 			}
 			else
 			{
 				Hacks::SetWaterWalk(false);
-				AddChat("Water Walk hack disabled.");
+				WoW::AddChatMessage("Water Walk hack disabled.");
 			}
 		}
 		else if(strcmpi(Command, ".stopfall") == 0)
 		{
 			Hacks::StopFall();
 		}
-		else if(std::string(Command).find(".morph") != std::string::npos)
+		else if(strcmpi(".morph", std::string(Command).substr(0, 6).c_str()) == 0)
 		{
+			const char* Previous = UI::MorphBox->GetText();
 			char* ModelID = new char[6];
 			ZeroMemory(ModelID, 6);
 			memcpy(ModelID, &Command[7], 5);
 			UI::MorphBox->SetText(ModelID);
 		
 			char* String = new char[100];
-			sprintf(String, "Player morphed to display ID: %s", ModelID);
-			AddChat(String);
+			sprintf(String, "%s morphed to display ID: %s", WoW::GetTarget() == 0 ? "Player" : "Target", ModelID);
+			WoW::AddChatMessage(String);
 			delete[] String;
 
 			delete[] ModelID;
 			Hacks::Morph();
+			UI::MorphBox->SetText(Previous);
 		}
-		else if(std::string(Command).find(".scale") != std::string::npos)
+		else if(strcmpi(".scale", std::string(Command).substr(0, 6).c_str()) == 0)
 		{
+			const char* Previous = UI::ScaleBox->GetText();
 			char* Scale = new char[6];
 			ZeroMemory(Scale, 6);
 			memcpy(Scale, &Command[7], 5);
 			UI::ScaleBox->SetText(Scale);
 
 			char* String = new char[100];
-			sprintf(String, "Player scale set to: %s", Scale);
-			AddChat(String);
+			sprintf(String, "%s scale set to: %s", WoW::GetTarget() == 0 ? "Player" : "Target", Scale);
+			WoW::AddChatMessage(String);
 			delete[] String;
 
 			delete[] Scale;
 			Hacks::Morph();
+			UI::ScaleBox->SetText(Previous);
 		}
-		else if(std::string(Command).find(".loadmap") != std::string::npos)
+		else if(strcmpi(".loadmap", std::string(Command).substr(0, 8).c_str()) == 0)//find(".loadmap") != std::string::npos)
 		{
+			const char* Previous = UI::MapBox->GetText();
 			char* Map = new char[6];
 			ZeroMemory(Map, 6);
 			memcpy(Map, &Command[9], 5);
@@ -148,11 +148,16 @@ bool HandleCommand ()
 
 			char* String = new char[100];
 			sprintf(String, "Loaded map: %s", Map);
-			AddChat(String);
+			WoW::AddChatMessage(String);
 			delete[] String;
 
 			delete[] Map;
 			Hacks::LoadMap();
+			UI::MapBox->SetText(Previous);
+		}
+		else if(strcmpi(".track", std::string(Command).substr(0, 6).c_str()) == 0)
+		{
+			Hacks::Tracking(&Command[7]);
 		}
 		else if(Command[0] != '.')
 		{
@@ -161,11 +166,11 @@ bool HandleCommand ()
 	}
 	catch(exception Exception)
 	{
-		AddChat(Exception.GetException());
+		WoW::AddChatMessage(Exception.GetException());
 	}
 	catch(...)
 	{
-		AddChat("Exception occured.");
+		WoW::AddChatMessage("Exception occured.");
 	}
 
 	return true;

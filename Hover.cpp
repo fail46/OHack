@@ -1,15 +1,15 @@
-#include "Hack.hpp"
+#include "OHack.hpp"
 
 void Hacks::SetHover (bool State)
 {
-	if(**reinterpret_cast<byte**>(WoWBase + CGGameUI__EnterWorld + 0xB) != 1 || Player == 0)
+	if(WoW::IsInGame() == false || WoW::GetPlayer() == 0)
 	{
 		return;
 	}
 
 	if(State == true)
 	{
-		if(*reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(Player + CMovement) + 0x38) & (MovementFlags::Flying | MovementFlags::Swimming))
+		if(*reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(WoW::GetPlayer() + CMovement) + 0x38) & (MovementFlags::Flying | MovementFlags::Swimming))
 		{
 			return;
 		}

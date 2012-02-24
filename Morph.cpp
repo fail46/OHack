@@ -1,15 +1,15 @@
-#include "Hack.hpp"
+#include "OHack.hpp"
 
 int Hacks::MapID = -1;
 
 void Hacks::Morph ()
 {
-	if(**reinterpret_cast<byte**>(WoWBase + CGGameUI__EnterWorld + 0xB) != 1 || Player == 0)
+	if(WoW::IsInGame() == false || WoW::GetPlayer() == 0)
 	{
 		return;
 	}
 
-	unsigned int Unit = Target ? Target : Player;
+	unsigned int Unit = WoW::GetTarget() ? WoW::GetTarget() : WoW::GetPlayer();
 
 	if(strlen(UI::MorphBox->GetText()) != 0)
 	{
@@ -27,7 +27,7 @@ void Hacks::Morph ()
 
 void Hacks::LoadMap ()
 {
-	if(**reinterpret_cast<byte**>(WoWBase + CGGameUI__EnterWorld + 0xB) != 1 || strlen(UI::MapBox->GetText()) == 0)
+	if(WoW::IsInGame() == false || strlen(UI::MapBox->GetText()) == 0)
 	{
 		return;
 	}

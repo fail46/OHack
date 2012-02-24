@@ -1,4 +1,4 @@
-#include "Hack.hpp"
+#include "OHack.hpp"
 
 void Hacks::SetNoCollision (bool State)
 {
