@@ -29,12 +29,12 @@ bool __fastcall CanTrackUnit (unsigned int This, unsigned int, unsigned int This
 			return true;
 		}
 
-		if(Reaction <= 3 && TrackEnemyPlayers == true)
+		if(Reaction <= 4 && TrackEnemyPlayers == true)
 		{
 			return true;
 		}
 		
-		if(Reaction >= 4 && TrackFriendPlayers == true)
+		if(Reaction >= 5 && TrackFriendPlayers == true)
 		{
 			return true;
 		}
