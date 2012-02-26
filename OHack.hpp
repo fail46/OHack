@@ -126,8 +126,3 @@ namespace WoW
 	unsigned int GetTarget ();
 	void DoString (const char* String);
 }
-
-namespace Warden
-{
-	void Enable ();
-}
