@@ -41,6 +41,9 @@
 #define TrackingEnumCallback 0x5D1E90
 #define CGPlayer_C__CanTrackUnit 0x161CD0
 #define CGPlayer_C__CanTrackObject 0x161D60
+#define CMovement__CalcDirection 0x61E770
+#define CMovementShared__CalcDirection 0x61FDB0
+#define SendJump 0x1CD6D0
 
 #define Descriptors 0xC
 #define DisplayID 0xF4
