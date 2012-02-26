@@ -1,17 +1,25 @@
 #include "OHack.hpp"
 
-bool Hacks::Fly = false;
-void Hacks::SetFly (bool State)
+__declspec(naked) void __fastcall CalcDirectionHook ()
 {
-	if(GetMoveStatusReal == nullptr)
+	static unsigned int This = 0;
+	__asm
 	{
-		GetMoveStatusReal = reinterpret_cast<void (__thiscall*)(unsigned int, int, int, int)>(DetourFunction(reinterpret_cast<byte*>(WoWBase + CMovement_C__GetMoveStatus), reinterpret_cast<byte*>(GetMoveStatusHook)));
-		if(GetMoveStatusReal == nullptr || *reinterpret_cast<byte*>(WoWBase + CMovement_C__GetMoveStatus) == 0x55)
-		{
-			throw exception("Unable to hook CMovement_C::GetMoveStatus for fly hack.");
-		}
+		mov This, ecx
 	}
 
+	get<unsigned int>(get<unsigned int>(WoW::GetPlayer() + CMovement) + 0x38) |= MovementFlags::Flying;
+	reinterpret_cast<void (__thiscall*)(unsigned int)>(WoWBase + CMovement__CalcDirection)(This);
+	get<unsigned int>(get<unsigned int>(WoW::GetPlayer() + CMovement) + 0x38) &= ~MovementFlags::Flying;
+
+	__asm
+	{
+		retn
+	}
+}
+
+void Hacks::SetFly (bool State)
+{
 	if(WoW::IsInGame() == false || WoW::GetPlayer() == 0)
 	{
 		return;
@@ -26,26 +34,32 @@ void Hacks::SetFly (bool State)
 
 		StopFall();
 
+		const byte NOPs[] = {0x90, 0x90, 0x90, 0x83, 0xC4, 0x4};
+		Write(WoWBase + CanFlyOrSwim + 0x63, NOPs, 3);
+
 		const byte NoSwim[] = {0x90, 0xE9};
 		Write(WoWBase + CGUnit_C__UpdateSwimmingStatus + 0x3C, NoSwim, 2);
 
 		const byte NoJump[] = {0x90, 0x90, 0x83, 0xC4, 0x4};
 		Write(WoWBase + Script_JumpOrAscendStart + 0x15D, NoJump, 5);
 
-		Fly = true;
+		Write<signed int>(WoWBase + CMovementShared__CalcDirection + 0x1A, reinterpret_cast<unsigned int>(CalcDirectionHook) - (WoWBase + CMovementShared__CalcDirection + 0x1E));
 
 		UI::FlyHack->SetChecked(GetFly());
 	}
 	else
 	{
+		const byte Fly1[] = {0x33, 0xC0, 0xC3};
+		Write(WoWBase + CanFlyOrSwim + 0x63, Fly1, 3);
+
 		const byte NoSwim[] = {0x0F, 0x85};
 		Write(WoWBase + CGUnit_C__UpdateSwimmingStatus + 0x3C, NoSwim, 2);
 
-		const byte NoJump[] = {0xE8, 0xE, 0x32, 0x18, 0x0};
+		byte NoJump[] = {0xE8, 0x0, 0x0, 0x0, 0x0};
+		get<unsigned int>(&NoJump[1]) = (WoWBase + SendJump) - (WoWBase + Script_JumpOrAscendStart + 0x15E + 0x4);
 		Write(WoWBase + Script_JumpOrAscendStart + 0x15D, NoJump, 5);
 
-		*reinterpret_cast<unsigned int*>(*reinterpret_cast<unsigned int*>(WoW::GetPlayer() + CMovement) + 0x38) &= ~MovementFlags::Flying;
-		Fly = false;
+		Write<signed int>(WoWBase + CMovementShared__CalcDirection + 0x1A, (WoWBase + CMovement__CalcDirection) - (WoWBase + CMovementShared__CalcDirection + 0x1E));
 
 		UI::FlyHack->SetChecked(GetFly());
 	}
@@ -55,5 +69,5 @@ void Hacks::SetFly (bool State)
 
 bool Hacks::GetFly ()
 {
-	return Fly;
+	return Read<signed int>(WoWBase + CMovementShared__CalcDirection + 0x1A) == (reinterpret_cast<unsigned int>(CalcDirectionHook) - (WoWBase + CMovementShared__CalcDirection + 0x1E));
 }
