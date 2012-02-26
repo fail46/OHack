@@ -30,6 +30,13 @@ namespace Fail
 		// Functions for local process memory editing
 		namespace Local
 		{
+			// Get an object and return by reference
+			template <typename Type>
+			inline Type& get (uint Address)
+			{
+				return *reinterpret_cast<Type*>(Address.AsPointer());
+			}
+
 			// Get a pointer to the main module
 			inline uint GetMainModule ()
 			{
