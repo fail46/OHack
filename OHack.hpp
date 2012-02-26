@@ -1,9 +1,10 @@
 #pragma once
 
-#define ThisVersion 3
+#define ThisVersion 7
 
 #include <Windows.h>
 #include <UrlMon.h>
+#include <Psapi.h>
 
 #include <fstream>
 #include <string>
@@ -27,6 +28,7 @@
 #include "Offsets.hpp"
 
 #pragma comment (lib, "UrlMon.lib")
+#pragma comment (lib, "Psapi.lib")
 
 using namespace Fail::Dialog;
 using namespace Fail::Memory::Local;
@@ -76,10 +78,6 @@ namespace Hacks
 	extern int SetFlyOnFrame;
 	extern int SetHoverOnFrame;
 	extern int MapID;
-	extern bool Fly;
-
-	extern void (__thiscall* GetMoveStatusReal)(unsigned int, int, int, int);
-	void __fastcall GetMoveStatusHook (unsigned int This, unsigned int, int a1, int a2, int a3);
 
 	void Init ();
 
@@ -127,4 +125,9 @@ namespace WoW
 	unsigned int GetPlayer ();
 	unsigned int GetTarget ();
 	void DoString (const char* String);
+}
+
+namespace Warden
+{
+	void Enable ();
 }
