@@ -2,7 +2,7 @@
 
 void Hacks::Init ()
 {
-	// Hook CGWorldFrame::Render to can run code in the main thread every frame. This can be hooked instead of EndScene or Present, and is not DirectX-dependent.
+	// Hook CGWorldFrame::Render to run code in the main thread every frame. This can be hooked instead of EndScene or Present, and is not DirectX-dependent.
 	WoW::Render = reinterpret_cast<bool (__thiscall*)(unsigned int)>(DetourFunction(reinterpret_cast<byte*>(WoWBase + CGWorldFrame__Render), reinterpret_cast<byte*>(WoW::FrameHook)));
 	Misc::SetCommandHook();
 
@@ -29,6 +29,9 @@ void Hacks::Init ()
 	const byte LanguageHack[] = {0xB8, 0x1, 0x0, 0x0, 0x0, 0xC2, 0x08, 0x0};
 	Write(WoWBase + IsKnownLanguage, LanguageHack, 8);
 
+	// Understanding all languages didn't work for some people. This should fix that.
+	Write<byte>(WoWBase + ObfuscateLanguage + 0x75, 0x3A);
+	
 	// Follow any hack
 	Write(WoWBase + CGUnit_C__SetTrackingTarget + 0x86, NOPs, 5);
 
