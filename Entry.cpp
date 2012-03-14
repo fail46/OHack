@@ -13,7 +13,7 @@ int __stdcall DllMain (HMODULE Module, unsigned long Reason, void*)
 
 	if(Read<byte>(WoWBase + CGGameUI__CanPerformAction) != 0x55)
 	{
-		Notification(nullptr, "This hack only supports WoW 4.3.2 (15211) x86.", "Unsupported");
+		Notification(nullptr, "This hack only supports WoW 4.3.3 (15354) x86.", "Unsupported");
 		return 0;
 	}
 
