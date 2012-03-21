@@ -41,6 +41,8 @@
 #define CMovement__CalcDirection 0x61DB60
 #define SendJump 0x1CD2D0
 #define ObfuscateLanguage 0x4EB7D0
+#define CGUnit_C__GetCreatureRank 0x1AF990
+#define SomeLuaFunction 0x02B170
 
 #define Descriptors 0xC
 #define DisplayID 0xF4
