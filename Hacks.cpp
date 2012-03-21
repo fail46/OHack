@@ -7,9 +7,8 @@ void Hacks::Init ()
 	Misc::SetCommandHook();
 
 	// Unlock Lua
-	const byte LuaUnlock[] = {0xEB, 0x57};
-	Write(WoWBase + CGGameUI__CanPerformAction + 0x20, LuaUnlock, 2);
-	Write<byte>(WoWBase + Script_GuildInvite + 0xA2, static_cast<byte>(0xEB));
+	const byte LuaUnlock[] = {0x8B, 0xE5, 0x5D, 0xC3};
+	Write(WoWBase + SomeLuaFunction + 0x21D, LuaUnlock, 4);
 
 	// To stop those damn pop-ups
 	const byte NoPopups[] = {0x90, 0xE9};
