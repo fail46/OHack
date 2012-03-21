@@ -8,6 +8,7 @@ bool TrackEnemies = false;
 bool TrackFriendPlayers = false;;
 bool TrackFriends = false;
 bool TrackNeutral = false;
+bool TrackRares = false;
 
 bool __fastcall CanTrackUnit (unsigned int This, unsigned int, unsigned int ThisObject)
 {
@@ -53,6 +54,12 @@ bool __fastcall CanTrackUnit (unsigned int This, unsigned int, unsigned int This
 		}
 
 		if(Reaction >= 5 && TrackFriends == true)
+		{
+			return true;
+		}
+
+		register unsigned int Classification = reinterpret_cast<unsigned int (__thiscall*)(unsigned int)>(WoWBase + CGUnit_C__GetCreatureRank)(ThisObject);
+		if(Classification == 2 || Classification == 4)
 		{
 			return true;
 		}
@@ -134,6 +141,14 @@ void Hacks::Tracking (const char* Track)
 	{
 		TrackObjects = !TrackObjects;
 		sprintf_s(Message, "Object tracking %s.", TrackObjects ? "enabled" : "disabled");
+		WoW::AddChatMessage(Message);
+		return;
+	}
+
+	if(_strcmpi(Track, "rares") == 0)
+	{
+		TrackRares = !TrackRares;
+		sprintf_s(Message, "Rare tracking %s.", TrackRares ? "enabled" : "disabled");
 		WoW::AddChatMessage(Message);
 		return;
 	}
