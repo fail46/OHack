@@ -1,6 +1,6 @@
 #pragma once
 
-#define ThisVersion 8
+#define ThisVersion 10
 
 #include <Windows.h>
 #include <UrlMon.h>
@@ -125,4 +125,11 @@ namespace WoW
 	unsigned int GetPlayer ();
 	unsigned int GetTarget ();
 	void DoString (const char* String);
+}
+
+namespace Warden
+{
+	extern bool HasEnabled;
+
+	void Enable ();
 }
